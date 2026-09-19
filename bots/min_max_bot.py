@@ -2,7 +2,7 @@ import random
 
 import chess
 from bots.base_bot import BaseBot
-from board_evaluation.material_evaluation import MaterialEvaluation
+from evaluation.material import MaterialEvaluation
 
 
 class MinMaxBot(BaseBot):

@@ -2,7 +2,7 @@ import chess
 import torch
 from torch import nn
 
-from machine_learning.encoder import BoardEncoder
+from machine_learning.data.encoder import BoardEncoder
 
 
 class NeuralEvaluation:

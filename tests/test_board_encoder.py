@@ -1,6 +1,6 @@
 import chess
 
-from machine_learning.encoder import BoardEncoder
+from machine_learning.data.encoder import BoardEncoder
 
 
 def test_starting_position_vector_size():

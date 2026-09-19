@@ -2,8 +2,8 @@ import time
 from itertools import combinations
 
 from bots.base_bot import BaseBot
-from bot_evaluation.match_runner import MatchRunner
-from bot_evaluation.results_store import ResultsStore
+from tournament.match_runner import MatchRunner
+from tournament.repository import ResultsStore
 
 
 class TournamentRunner:

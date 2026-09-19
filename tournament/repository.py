@@ -3,7 +3,7 @@ from pathlib import Path
 
 
 class ResultsStore:
-    def __init__(self, file_path: str = "bot_evaluation/results.json"):
+    def __init__(self, file_path: str = "tournament/results.json"):
         self.file_path = Path(file_path)
 
         self.file_path.parent.mkdir(

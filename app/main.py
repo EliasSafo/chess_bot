@@ -1,17 +1,17 @@
 import sys
 import joblib
 
-from machine_learning.encoder import BoardEncoder
+from machine_learning.data.encoder import BoardEncoder
 import chess
 from PySide6.QtCore import QTimer
 from PySide6.QtWidgets import QApplication
 
-from board_evaluation import positional_evaluation
-from board_evaluation.ml_evaluation import MLEvaluation
-from board_evaluation.positional_evaluation import PositionalEvaluation
-from bot_evaluation.match_runner import MatchRunner
-from bot_evaluation.results_store import ResultsStore
-from bot_evaluation.tournament_runner import TournamentRunner
+from evaluation import positional
+from evaluation.ml import MLEvaluation
+from evaluation.positional import PositionalEvaluation
+from tournament.match_runner import MatchRunner
+from tournament.repository import ResultsStore
+from tournament.tournament_runner import TournamentRunner
 from bots.material_count_bot import MaterialCountBot
 from bots.min_max_bot import MinMaxBot
 from bots.random_bot import RandomBot
@@ -20,8 +20,8 @@ from game.bot_controller import BotGameController
 from game.controller import GameController
 from game.game import Game
 
-from visual_representation import ChessWindow
-from board_evaluation.material_evaluation import MaterialEvaluation
+from app.visual_representation import ChessWindow
+from evaluation.material import MaterialEvaluation
 # MODE = "bot_vs_bot"
 MODE = "human_vs_bot"
 

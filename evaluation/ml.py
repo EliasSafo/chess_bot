@@ -1,6 +1,6 @@
 import joblib
 import chess
-from machine_learning.encoder import BoardEncoder
+from machine_learning.data.encoder import BoardEncoder
 
 
 class MLEvaluation:

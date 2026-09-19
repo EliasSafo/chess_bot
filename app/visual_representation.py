@@ -14,7 +14,7 @@ from PySide6.QtWidgets import (
 )
 
 
-BASE_DIR = Path(__file__).resolve().parent
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 PIECE_IMAGES = {

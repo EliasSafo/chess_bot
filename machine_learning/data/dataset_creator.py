@@ -2,8 +2,8 @@ from pathlib import Path
 import random
 import numpy as np
 
-from machine_learning.encoder import BoardEncoder
-from machine_learning.dataset_loader import load_games
+from machine_learning.data.encoder import BoardEncoder
+from machine_learning.data.dataset_loader import load_games
 
 
 class TrainingDatasetCreator:

@@ -1,6 +1,6 @@
 import chess
-from board_evaluation.material_evaluation import MaterialEvaluation
-from utils.piece_square_tables import PIECE_SQUARE_TABLES
+from evaluation.material import MaterialEvaluation
+from evaluation.piece_square_tables import PIECE_SQUARE_TABLES
 
 
 class PositionalEvaluation:
