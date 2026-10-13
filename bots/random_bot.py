@@ -1,7 +1,6 @@
 import random
 
 import chess
-
 from bots.base_bot import BaseBot
 
 

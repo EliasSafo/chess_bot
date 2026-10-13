@@ -1,18 +1,11 @@
 from pathlib import Path
 
-import chess
-
-from PySide6.QtCore import Qt, QSize, QUrl, QTimer
+from PySide6.QtCore import QSize, Qt, QTimer, QUrl
 from PySide6.QtGui import QIcon
 from PySide6.QtMultimedia import QSoundEffect
-from PySide6.QtWidgets import (
-    QWidget,
-    QGridLayout,
-    QPushButton,
-    QVBoxLayout,
-    QLabel,
-)
+from PySide6.QtWidgets import QGridLayout, QLabel, QPushButton, QVBoxLayout, QWidget
 
+import chess
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -24,7 +17,6 @@ PIECE_IMAGES = {
     (chess.ROOK, chess.WHITE): BASE_DIR / "assets/pieces/white_rook.svg",
     (chess.QUEEN, chess.WHITE): BASE_DIR / "assets/pieces/white_queen.svg",
     (chess.KING, chess.WHITE): BASE_DIR / "assets/pieces/white_king.svg",
-
     (chess.PAWN, chess.BLACK): BASE_DIR / "assets/pieces/black_pawn.svg",
     (chess.KNIGHT, chess.BLACK): BASE_DIR / "assets/pieces/black_knight.svg",
     (chess.BISHOP, chess.BLACK): BASE_DIR / "assets/pieces/black_bishop.svg",
@@ -37,10 +29,10 @@ PIECE_IMAGES = {
 class ChessWindow(QWidget):
 
     def __init__(
-            self,
-            controller,
-            interactive=True,
-            sound_enabled=True,
+        self,
+        controller,
+        interactive=True,
+        sound_enabled=True,
     ):
         super().__init__()
 
@@ -79,7 +71,6 @@ class ChessWindow(QWidget):
         self.create_board()
         self.update_board()
 
-
     @property
     def board(self):
         return self.controller.game.board
@@ -89,9 +80,7 @@ class ChessWindow(QWidget):
 
         sound_path = BASE_DIR / "assets/sounds/move.wav"
 
-        self.move_sound.setSource(
-            QUrl.fromLocalFile(str(sound_path))
-        )
+        self.move_sound.setSource(QUrl.fromLocalFile(str(sound_path)))
 
         self.move_sound.setVolume(0.5)
 
@@ -110,8 +99,7 @@ class ChessWindow(QWidget):
                 button.setFixedSize(90, 90)
 
                 button.clicked.connect(
-                    lambda checked=False, r=row, c=col:
-                    self.handle_square_click(r, c)
+                    lambda checked=False, r=row, c=col: self.handle_square_click(r, c)
                 )
 
                 self.board_grid.addWidget(
@@ -128,9 +116,9 @@ class ChessWindow(QWidget):
                 self.square_buttons[square] = button
 
     def coordinates_to_square(
-            self,
-            row: int,
-            col: int,
+        self,
+        row: int,
+        col: int,
     ) -> chess.Square:
 
         if self.orientation == chess.WHITE:
@@ -187,14 +175,9 @@ class ChessWindow(QWidget):
 
             return
 
-        piece = self.board.piece_at(
-            clicked_square
-        )
+        piece = self.board.piece_at(clicked_square)
 
-        if (
-            piece is not None
-            and piece.color == self.board.turn
-        ):
+        if piece is not None and piece.color == self.board.turn:
             self.selected_square = clicked_square
 
         else:
@@ -249,17 +232,11 @@ class ChessWindow(QWidget):
                 button.setIcon(QIcon())
 
             else:
-                image_path = PIECE_IMAGES[
-                    (piece.piece_type, piece.color)
-                ]
+                image_path = PIECE_IMAGES[(piece.piece_type, piece.color)]
 
-                button.setIcon(
-                    QIcon(str(image_path))
-                )
+                button.setIcon(QIcon(str(image_path)))
 
-                button.setIconSize(
-                    QSize(72, 72)
-                )
+                button.setIconSize(QSize(72, 72))
 
             button.setStyleSheet(
                 self.get_square_style(
@@ -279,9 +256,7 @@ class ChessWindow(QWidget):
         file_index = chess.square_file(square)
         rank_index = chess.square_rank(square)
 
-        is_light = (
-            file_index + rank_index
-        ) % 2 == 1
+        is_light = (file_index + rank_index) % 2 == 1
 
         if is_light:
             background = "#F0D9B5"
@@ -289,12 +264,9 @@ class ChessWindow(QWidget):
             background = "#B58863"
 
         # Last move
-        if (
-            self.last_move is not None
-            and square in (
-                self.last_move.from_square,
-                self.last_move.to_square,
-            )
+        if self.last_move is not None and square in (
+            self.last_move.from_square,
+            self.last_move.to_square,
         ):
             background = "#F6E05E"
 
@@ -321,22 +293,14 @@ class ChessWindow(QWidget):
 
         if self.board.is_checkmate():
 
-            winner = (
-                "Black"
-                if self.board.turn == chess.WHITE
-                else "White"
-            )
+            winner = "Black" if self.board.turn == chess.WHITE else "White"
 
-            self.status_label.setText(
-                f"Checkmate — {winner} wins"
-            )
+            self.status_label.setText(f"Checkmate — {winner} wins")
 
             return
 
         if self.board.is_stalemate():
-            self.status_label.setText(
-                "Stalemate"
-            )
+            self.status_label.setText("Stalemate")
             return
 
         if self.board.turn == chess.WHITE:
@@ -345,10 +309,6 @@ class ChessWindow(QWidget):
             turn = "Black"
 
         if self.board.is_check():
-            self.status_label.setText(
-                f"{turn} to move — CHECK"
-            )
+            self.status_label.setText(f"{turn} to move — CHECK")
         else:
-            self.status_label.setText(
-                f"{turn} to move"
-            )
+            self.status_label.setText(f"{turn} to move")

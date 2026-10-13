@@ -1,9 +1,8 @@
 import numpy as np
 import torch
+from sklearn.model_selection import train_test_split
 from torch import nn
 from torch.utils.data import DataLoader, TensorDataset
-from sklearn.model_selection import train_test_split
-
 
 DATASET_PATH = "./data/processed/dataset_1_mil_random_positions_games.npz"
 MODEL_PATH = "machine_learning/models/neural_10000_random_positions_gamess.pt"
@@ -17,9 +16,7 @@ LEARNING_RATE = 0.001
 # Load dataset
 # -------------------------
 
-data = np.load(
-    "./data/processed/dataset_1_mil_random_positions_games.npz"
-)
+data = np.load("./data/processed/dataset_1_mil_random_positions_games.npz")
 
 X = data["X"]
 y = data["y"]
@@ -84,10 +81,8 @@ train_loader = DataLoader(
 model = nn.Sequential(
     nn.Linear(769, 128),
     nn.ReLU(),
-
     nn.Linear(128, 64),
     nn.ReLU(),
-
     nn.Linear(64, 1),
 )
 
@@ -131,15 +126,9 @@ for epoch in range(EPOCHS):
 
         total_loss += loss.item()
 
-    average_loss = (
-        total_loss
-        / len(train_loader)
-    )
+    average_loss = total_loss / len(train_loader)
 
-    print(
-        f"Epoch {epoch + 1}/{EPOCHS} "
-        f"- Training loss: {average_loss:.4f}"
-    )
+    print(f"Epoch {epoch + 1}/{EPOCHS} " f"- Training loss: {average_loss:.4f}")
 
 
 # -------------------------

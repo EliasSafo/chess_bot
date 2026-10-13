@@ -1,16 +1,16 @@
-from game.game import Game
 from bots.base_bot import BaseBot
 from game.bot_controller import BotGameController
+from game.game import Game
 
 
-class MatchRunner():
-    def __init__(self, number_of_games:int, bot_A:BaseBot, bot_B:BaseBot):
+class MatchRunner:
+    def __init__(self, number_of_games: int, bot_A: BaseBot, bot_B: BaseBot):
         self.number_of_games = number_of_games
         self.bot_A = bot_A
         self.bot_B = bot_B
 
     def run_match(self):
-        results=[]
+        results = []
         for game_number in range(self.number_of_games):
             game = Game()
             if game_number % 2 == 0:
@@ -20,8 +20,10 @@ class MatchRunner():
                     black_bot=self.bot_B,
                 )
                 while not game.is_over():
-                    move =   controller.make_next_move()
-                result = self.save_result(white=self.bot_A,black=self.bot_B,result=game.board.result())
+                    move = controller.make_next_move()
+                result = self.save_result(
+                    white=self.bot_A, black=self.bot_B, result=game.board.result()
+                )
                 results.append(result)
 
             else:
@@ -32,7 +34,9 @@ class MatchRunner():
                 )
                 while not game.is_over():
                     move = controller.make_next_move()
-                result = self.save_result(white=self.bot_B,black=self.bot_A,result=game.board.result())
+                result = self.save_result(
+                    white=self.bot_B, black=self.bot_A, result=game.board.result()
+                )
                 results.append(result)
         return results
 

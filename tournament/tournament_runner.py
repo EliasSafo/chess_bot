@@ -3,7 +3,7 @@ from itertools import combinations
 
 from bots.base_bot import BaseBot
 from tournament.match_runner import MatchRunner
-from tournament.repository import ResultsStore
+# from tournament.repository import ResultsStore
 
 
 class TournamentRunner:
@@ -12,16 +12,14 @@ class TournamentRunner:
         self,
         number_of_games: int,
         bots: list[BaseBot],
-        results_store: ResultsStore,
+        # results_store: ResultsStore,
     ):
         self.number_of_games = number_of_games
         self.bots = bots
-        self.results_store = results_store
+        # self.results_store = results_store
 
     def run_tournament(self) -> list[dict]:
-        bot_pairings = self.generate_bot_pairings(
-            self.bots
-        )
+        bot_pairings = self.generate_bot_pairings(self.bots)
 
         total_matchups = len(bot_pairings)
         tournament_results = []
@@ -32,9 +30,7 @@ class TournamentRunner:
         print("=== TOURNAMENT START ===")
         print(f"Bots: {len(self.bots)}")
         print(f"Matchups: {total_matchups}")
-        print(
-            f"Games per matchup: {self.number_of_games}"
-        )
+        print(f"Games per matchup: {self.number_of_games}")
         print()
 
         for matchup_number, (bot_A, bot_B) in enumerate(
@@ -56,10 +52,7 @@ class TournamentRunner:
 
             match_results = matcher.run_match()
 
-            matchup_duration = (
-                time.perf_counter()
-                - matchup_start
-            )
+            matchup_duration = time.perf_counter() - matchup_start
 
             matchup_result = {
                 "bot_A": bot_A.config_id,
@@ -68,36 +61,19 @@ class TournamentRunner:
                 "results": match_results,
             }
 
-            tournament_results.append(
-                matchup_result
-            )
+            tournament_results.append(matchup_result)
 
-            print(
-                f"Completed in "
-                f"{matchup_duration:.2f}s"
-            )
-            print(
-                f"Results: {match_results}"
-            )
+            print(f"Completed in " f"{matchup_duration:.2f}s")
+            print(f"Results: {match_results}")
             print()
 
-        self.results_store.append_tournament(
-            tournament_results
-        )
+        self.results_store.append_tournament(tournament_results)
 
-        tournament_duration = (
-            time.perf_counter()
-            - tournament_start
-        )
+        tournament_duration = time.perf_counter() - tournament_start
 
         print("=== TOURNAMENT COMPLETE ===")
-        print(
-            f"Total time: "
-            f"{tournament_duration:.2f}s"
-        )
-        print(
-            f"Results saved."
-        )
+        print(f"Total time: " f"{tournament_duration:.2f}s")
+        print(f"Results saved.")
         print()
 
         return tournament_results
@@ -106,6 +82,4 @@ class TournamentRunner:
         self,
         bots: list[BaseBot],
     ):
-        return list(
-            combinations(bots, 2)
-        )
+        return list(combinations(bots, 2))

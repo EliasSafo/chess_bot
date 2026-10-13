@@ -1,27 +1,26 @@
 import sys
-import joblib
 
-from machine_learning.data.encoder import BoardEncoder
-import chess
+import joblib
 from PySide6.QtCore import QTimer
 from PySide6.QtWidgets import QApplication
 
-from evaluation import positional
-from evaluation.ml import MLEvaluation
-from evaluation.positional import PositionalEvaluation
-from tournament.match_runner import MatchRunner
-from tournament.repository import ResultsStore
-from tournament.tournament_runner import TournamentRunner
+import chess
+from app.visual_representation import ChessWindow
 from bots.material_count_bot import MaterialCountBot
 from bots.min_max_bot import MinMaxBot
 from bots.random_bot import RandomBot
-
+from evaluation import positional
+from evaluation.material import MaterialEvaluation
+from evaluation.ml import MLEvaluation
+from evaluation.positional import PositionalEvaluation
 from game.bot_controller import BotGameController
 from game.controller import GameController
 from game.game import Game
+from machine_learning.data.encoder import BoardEncoder
+from tournament.match_runner import MatchRunner
+# from tournament.repository import ResultsStore
+from tournament.tournament_runner import TournamentRunner
 
-from app.visual_representation import ChessWindow
-from evaluation.material import MaterialEvaluation
 # MODE = "bot_vs_bot"
 MODE = "human_vs_bot"
 
@@ -29,8 +28,14 @@ MODE = "human_vs_bot"
 def create_bot_vs_bot(game):
     controller = BotGameController(
         game=game,
-        white_bot=MinMaxBot(evaluator=MLEvaluation("machine_learning/models/linear_1_mil_random_positions_games.joblib",model_id="10k"), depth=3),
-        black_bot=MinMaxBot(evaluator=PositionalEvaluation(),depth=3),
+        white_bot=MinMaxBot(
+            evaluator=MLEvaluation(
+                "machine_learning/models/linear_1_mil_random_positions_games.joblib",
+                model_id="10k",
+            ),
+            depth=3,
+        ),
+        black_bot=MinMaxBot(evaluator=PositionalEvaluation(), depth=3),
     )
 
     return controller
@@ -39,7 +44,7 @@ def create_bot_vs_bot(game):
 def create_human_vs_bot(game):
     controller = GameController(
         game=game,
-        bot=MinMaxBot(evaluator=MLEvaluation("machine_learning/models/linear_1_mil_random_positions_games.joblib",model_id="10k"), depth=3),
+        bot=MinMaxBot(evaluator=PositionalEvaluation(), depth=3),
         human_color=chess.BLACK,
     )
 
@@ -64,7 +69,6 @@ def main():
 
         def play_next_move():
 
-
             if game.is_over():
 
                 timer.stop()
@@ -73,10 +77,8 @@ def main():
 
             move = controller.make_next_move()
 
-
             if move is not None:
                 window.register_move(move)
-
 
             window.update_board()
 
@@ -88,23 +90,16 @@ def main():
         controller = create_human_vs_bot(game)
 
         window = ChessWindow(
-
             controller,
-
             interactive=True,
-
             sound_enabled=True,
-
         )
 
         if controller.human_color == chess.BLACK:
             QTimer.singleShot(
-
                 500,
-
                 window.make_delayed_bot_move,
-
-        )
+            )
 
         else:
             raise ValueError(f"Unknown mode: {MODE}")
@@ -112,10 +107,6 @@ def main():
     window.show()
 
     sys.exit(app.exec())
-
-
-
-
 
 
 if __name__ == "__main__":

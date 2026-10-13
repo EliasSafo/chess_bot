@@ -5,7 +5,6 @@ from evaluation.piece_square_tables import PIECE_SQUARE_TABLES
 
 class PositionalEvaluation:
 
-
     @property
     def config_id(self) -> str:
         return "positional"
@@ -17,7 +16,7 @@ class PositionalEvaluation:
         final_score = material_evaluation + positional_evaluation
         return final_score
 
-    def positional_evaluate_board(self,board:chess.Board) -> float:
+    def positional_evaluate_board(self, board: chess.Board) -> float:
         score = 0
         for square in chess.SQUARES:
             piece = board.piece_at(square)
@@ -31,6 +30,5 @@ class PositionalEvaluation:
             else:
                 value = table[chess.square_mirror(square)]
                 score -= value
-
 
         return score

@@ -1,14 +1,10 @@
 import joblib
 import numpy as np
-
 from sklearn.linear_model import Ridge
-from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
+from sklearn.model_selection import train_test_split
 
-
-data = np.load(
-    "data/processed/dataset_1_mil_random_positions_games.npz"
-)
+data = np.load("data/processed/dataset_1_mil_random_positions_games.npz")
 
 X = data["X"]
 y = data["y"]

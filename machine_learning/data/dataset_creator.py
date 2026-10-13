@@ -1,9 +1,10 @@
-from pathlib import Path
 import random
+from pathlib import Path
+
 import numpy as np
 
-from machine_learning.data.encoder import BoardEncoder
 from machine_learning.data.dataset_loader import load_games
+from machine_learning.data.encoder import BoardEncoder
 
 
 class TrainingDatasetCreator:
@@ -24,16 +25,12 @@ class TrainingDatasetCreator:
         scanned_games = 0
         accepted_games = 0
 
-        print(
-            f"Building dataset from {self.file_path}"
-        )
-        print(
-            f"Target: {self.requested_games:,} accepted games"
-        )
+        print(f"Building dataset from {self.file_path}")
+        print(f"Target: {self.requested_games:,} accepted games")
 
         for game in load_games(
-                self.file_path,
-                max_games=None,
+            self.file_path,
+            max_games=None,
         ):
             scanned_games += 1
 
@@ -50,9 +47,7 @@ class TrainingDatasetCreator:
 
             accepted_games += 1
 
-            game_result = self.get_game_result(
-                game.headers["Result"]
-            )
+            game_result = self.get_game_result(game.headers["Result"])
 
             board = game.board()
             encoder = BoardEncoder(board=board)
@@ -61,28 +56,16 @@ class TrainingDatasetCreator:
                 range(len(moves)),
                 k=min(5, len(moves)),
             )
-            for index, move in enumerate(
-                    moves
-            ):
+            for index, move in enumerate(moves):
                 board.push(move)
                 if index in random_indices:
-                    X.append(
-                        encoder.encode_board()
-                    )
+                    X.append(encoder.encode_board())
                     y.append(game_result)
 
             if accepted_games % 100 == 0:
-                acceptance_rate = (
-                        accepted_games
-                        / scanned_games
-                        * 100
-                )
+                acceptance_rate = accepted_games / scanned_games * 100
 
-                progress = (
-                        accepted_games
-                        / self.requested_games
-                        * 100
-                )
+                progress = accepted_games / self.requested_games * 100
 
                 print(
                     f"[{progress:5.1f}%] "
@@ -168,10 +151,7 @@ class TrainingDatasetCreator:
         if initial_time < 600:
             return False
 
-        if (
-            game.headers.get("Termination")
-            == "Time forfeit"
-        ):
+        if game.headers.get("Termination") == "Time forfeit":
             return False
 
         result = game.headers.get(

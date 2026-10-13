@@ -1,5 +1,4 @@
 import chess
-
 from bots.base_bot import BaseBot
 from game.game import Game
 

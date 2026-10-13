@@ -1,4 +1,5 @@
 import joblib
+
 import chess
 from machine_learning.data.encoder import BoardEncoder
 
@@ -12,9 +13,9 @@ class MLEvaluation:
     def config_id(self) -> str:
         return self.model_id
 
-    def evaluate_board(self,board: chess.Board) -> float:
+    def evaluate_board(self, board: chess.Board) -> float:
         encoder = BoardEncoder(board)
         vector = encoder.encode_board()
         prediction = self.model.predict([vector])[0]
-        value = (prediction*2) - 1
+        value = (prediction * 2) - 1
         return value

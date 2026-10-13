@@ -1,5 +1,4 @@
 import chess
-
 from machine_learning.data.encoder import BoardEncoder
 
 
@@ -59,9 +58,7 @@ def test_piece_counts_per_channel():
         start = channel * 64
         end = start + 64
 
-        actual_counts.append(
-            sum(vector[start:end])
-        )
+        actual_counts.append(sum(vector[start:end]))
 
     assert actual_counts == expected_counts
 
@@ -76,15 +73,9 @@ def test_e2e4_moves_white_pawn():
 
     white_pawn_channel = 0
 
-    e2_index = (
-        white_pawn_channel * 64
-        + chess.E2
-    )
+    e2_index = white_pawn_channel * 64 + chess.E2
 
-    e4_index = (
-        white_pawn_channel * 64
-        + chess.E4
-    )
+    e4_index = white_pawn_channel * 64 + chess.E4
 
     assert vector[e2_index] == 0
     assert vector[e4_index] == 1
@@ -128,9 +119,6 @@ def test_captured_black_pawn_is_removed():
 
     black_pawn_channel = 6
 
-    d5_index = (
-        black_pawn_channel * 64
-        + chess.D5
-    )
+    d5_index = black_pawn_channel * 64 + chess.D5
 
     assert vector[d5_index] == 0

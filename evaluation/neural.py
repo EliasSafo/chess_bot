@@ -1,7 +1,7 @@
-import chess
 import torch
 from torch import nn
 
+import chess
 from machine_learning.data.encoder import BoardEncoder
 
 

@@ -1,7 +1,7 @@
 import chess
 
 
-class BoardEncoder():
+class BoardEncoder:
     PIECE_TO_CHANNEL = {
         (chess.PAWN, chess.WHITE): 0,
         (chess.KNIGHT, chess.WHITE): 1,
@@ -9,7 +9,6 @@ class BoardEncoder():
         (chess.ROOK, chess.WHITE): 3,
         (chess.QUEEN, chess.WHITE): 4,
         (chess.KING, chess.WHITE): 5,
-
         (chess.PAWN, chess.BLACK): 6,
         (chess.KNIGHT, chess.BLACK): 7,
         (chess.BISHOP, chess.BLACK): 8,
@@ -20,6 +19,7 @@ class BoardEncoder():
 
     PIECE_FEATURES = 12 * 64
     TURN_FEATURES = 1
+
     def __init__(self, board: chess.Board):
         self.board = board
 
@@ -28,14 +28,14 @@ class BoardEncoder():
         for square in chess.SQUARES:
             piece = self.board.piece_at(square)
             if piece:
-                index = self.PIECE_TO_CHANNEL[piece.piece_type,piece.color] * 64 + square
+                index = (
+                    self.PIECE_TO_CHANNEL[piece.piece_type, piece.color] * 64 + square
+                )
                 vector[index] = 1
         turn = 0
         if self.board.turn == chess.WHITE:
-            turn =1
+            turn = 1
 
         vector[self.PIECE_FEATURES] = turn
 
-
         return vector
-

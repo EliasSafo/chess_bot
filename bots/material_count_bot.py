@@ -1,9 +1,9 @@
 import random
 
 import chess
-
 from bots.base_bot import BaseBot
 from evaluation.material import MaterialEvaluation
+
 
 class MaterialCountBot(BaseBot):
 
@@ -19,14 +19,16 @@ class MaterialCountBot(BaseBot):
         move_evaluations = []
         for move in legal_moves:
             board.push(move)
-            evaluation =self.evaluator.evaluate_board(board)
+            evaluation = self.evaluator.evaluate_board(board)
             board.pop()
             move_evaluations.append((move, evaluation))
 
         if board.turn == chess.WHITE:
             best_move = max(evaluation for move, evaluation in move_evaluations)
         else:
-            best_move= min(evaluation for move, evaluation in move_evaluations)
+            best_move = min(evaluation for move, evaluation in move_evaluations)
 
-        best_moves = [move for move, evaluation in move_evaluations if evaluation == best_move]
+        best_moves = [
+            move for move, evaluation in move_evaluations if evaluation == best_move
+        ]
         return random.choice(best_moves)
